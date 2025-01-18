@@ -1,0 +1,21 @@
+- hosts: nginx
+  become: yes
+  tasks:
+    - name: Install NGINX
+      apt:
+        name: nginx
+        state: present
+    
+    - name: Copy Website Files
+      copy:
+        src: ./app/
+        dest: /var/www/html/
+        owner: www-data
+        group: www-data
+        mode: '0644'
+
+    - name: Start NGINX
+      service:
+        name: nginx
+        state: started
+        enabled: yes
